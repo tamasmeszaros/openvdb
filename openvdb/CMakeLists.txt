@@ -70,15 +70,14 @@ message(STATUS "----------------------------------------------------")
 
 # Collect and configure lib dependencies
 
+find_package(IlmBase ${MINIMUM_ILMBASE_VERSION} REQUIRED)
+
 if(USE_EXR)
-  find_package(IlmBase ${MINIMUM_ILMBASE_VERSION} REQUIRED)
   find_package(OpenEXR ${MINIMUM_OPENEXR_VERSION} REQUIRED)
-else()
-  find_package(IlmBase ${MINIMUM_ILMBASE_VERSION} REQUIRED COMPONENTS Half)
 endif()
 
 find_package(TBB ${MINIMUM_TBB_VERSION} REQUIRED COMPONENTS tbb)
-if(${Tbb_VERSION} VERSION_LESS FUTURE_MINIMUM_TBB_VERSION)
+if(${TBB_VERSION} VERSION_LESS FUTURE_MINIMUM_TBB_VERSION)
   message(DEPRECATION "Support for TBB versions < ${FUTURE_MINIMUM_TBB_VERSION} "
     "is deprecated and will be removed.")
 endif()
@@ -129,10 +128,13 @@ endif()
 # include paths from shared installs (including houdini) may pull in the wrong
 # headers
 
+include (CheckAtomic)
+
 set(OPENVDB_CORE_DEPENDENT_LIBS
   Boost::iostreams
   Boost::system
   IlmBase::Half
+  ${CMAKE_REQUIRED_LIBRARIES}
 )
 
 if(USE_EXR)
@@ -183,11 +185,6 @@ if(WIN32)
   if(OPENVDB_DISABLE_BOOST_IMPLICIT_LINKING)
     add_definitions(-DBOOST_ALL_NO_LIB)
   endif()
-endif()
-
-# @todo Should be target definitions
-if(WIN32)
-  add_definitions(-D_WIN32 -DNOMINMAX -DOPENVDB_DLL)
 endif()
 
 ##### Core library configuration
@@ -374,10 +371,16 @@ set(OPENVDB_LIBRARY_UTIL_INCLUDE_FILES
 
 if(OPENVDB_CORE_SHARED)
   add_library(openvdb_shared SHARED ${OPENVDB_LIBRARY_SOURCE_FILES})
+  if(WIN32)
+    target_compile_definitions(openvdb_shared PUBLIC OPENVDB_DLL)
+  endif()
 endif()
 
 if(OPENVDB_CORE_STATIC)
   add_library(openvdb_static STATIC ${OPENVDB_LIBRARY_SOURCE_FILES})
+  if(WIN32)
+    target_compile_definitions(openvdb_static PUBLIC OPENVDB_STATICLIB)
+  endif()
 endif()
 
 # Alias either the shared or static library to the generic OpenVDB

@@ -267,12 +267,9 @@ endif()
 
 if(OPENVDB_INSTALL_CMAKE_MODULES)
   set(OPENVDB_CMAKE_MODULES
-    cmake/FindBlosc.cmake
     cmake/FindCppUnit.cmake
     cmake/FindJemalloc.cmake
-    cmake/FindIlmBase.cmake
     cmake/FindLog4cplus.cmake
-    cmake/FindOpenEXR.cmake
     cmake/FindOpenVDB.cmake
     cmake/FindTBB.cmake
     cmake/OpenVDBGLFW3Setup.cmake

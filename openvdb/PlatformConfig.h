@@ -44,9 +44,12 @@
 
     // By default, assume that we're dynamically linking OpenEXR, unless
     // OPENVDB_OPENEXR_STATICLIB is defined.
-    #if !defined(OPENVDB_OPENEXR_STATICLIB) && !defined(OPENEXR_DLL)
-        #define OPENEXR_DLL
-    #endif
+    // Meszaros Tamas: Why? OpenEXR and its imported targets have OPENEXR_DLL
+    // in INTERFACE_COMPILE_DEFINITIONS if build with it.
+    // #if !defined(OPENVDB_OPENEXR_STATICLIB) && !defined(OPENEXR_DLL)
+    //     #define OPENEXR_DLL
+    //     static_assert(false, "This is bad: OPENEXR_DLL");
+    // #endif
 
 #endif // _WIN32
 

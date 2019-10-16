@@ -244,7 +244,7 @@ set(OpenVDB_LIB_COMPONENTS "")
 
 foreach(COMPONENT ${OpenVDB_FIND_COMPONENTS})
   set(LIB_NAME ${COMPONENT})
-  find_library(OpenVDB_${COMPONENT}_LIBRARY ${LIB_NAME}
+  find_library(OpenVDB_${COMPONENT}_LIBRARY ${LIB_NAME} lib${LIB_NAME}
     NO_DEFAULT_PATH
     PATHS ${_OPENVDB_LIBRARYDIR_SEARCH_DIRS}
     PATH_SUFFIXES ${OPENVDB_PATH_SUFFIXES}
@@ -282,16 +282,13 @@ find_package_handle_standard_args(OpenVDB
 # ------------------------------------------------------------------------
 
 # Set the ABI number the library was built against. Uses vdb_print
+find_program(OPENVDB_PRINT vdb_print
+  PATHS ${_OPENVDB_INSTALL}/bin ${OpenVDB_INCLUDE_DIR}
+  NO_DEFAULT_PATH)
 
 if(_OPENVDB_INSTALL)
   OPENVDB_ABI_VERSION_FROM_PRINT(
-    "${_OPENVDB_INSTALL}/bin/vdb_print"
-    ABI OpenVDB_ABI
-  )
-else()
-  # Try and find vdb_print from the include path
-  OPENVDB_ABI_VERSION_FROM_PRINT(
-    "${OpenVDB_INCLUDE_DIR}/../bin/vdb_print"
+    "${OPENVDB_PRINT}"
     ABI OpenVDB_ABI
   )
 endif()
@@ -472,6 +469,12 @@ foreach(COMPONENT ${OpenVDB_FIND_COMPONENTS})
       INTERFACE_LINK_LIBRARIES "${_OPENVDB_VISIBLE_DEPENDENCIES}" # visible deps (headers)
       INTERFACE_COMPILE_FEATURES cxx_std_11
    )
+
+   if (OPENVDB_USE_STATIC_LIBS)
+    set_target_properties(OpenVDB::${COMPONENT} PROPERTIES
+      INTERFACE_COMPILE_DEFINITIONS "OPENVDB_STATICLIB;OPENVDB_OPENEXR_STATICLIB"
+    )
+   endif()
   endif()
 endforeach()
 

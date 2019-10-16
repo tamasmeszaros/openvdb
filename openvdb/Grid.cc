@@ -35,6 +35,9 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <tbb/mutex.h>
 
+// WTF??? Somehow from stdlib.h
+#undef min
+#undef max
 
 namespace openvdb {
 OPENVDB_USE_VERSION_NAMESPACE

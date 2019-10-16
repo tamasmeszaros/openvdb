@@ -71,8 +71,9 @@ if(WIN32)
   link_directories(${Boost_LIBRARY_DIR})
 endif()
 
+# @todo Should be target definitions
 if(WIN32)
-  add_definitions(-D_WIN32 -DNOMINMAX -DOPENVDB_DLL)
+  add_definitions(-D_WIN32 -DNOMINMAX)
 endif()
 
 ##### VDB unit tests
