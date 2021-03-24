@@ -74,8 +74,9 @@ if(WIN32)
   endif()
 endif()
 
+# @todo Should be target definitions
 if(WIN32)
-  add_definitions(-D_WIN32 -DNOMINMAX -DOPENVDB_DLL)
+  add_definitions(-D_WIN32 -DNOMINMAX)
 endif()
 
 # rpath handling
@@ -88,7 +89,6 @@ if(OPENVDB_ENABLE_RPATH)
     ${IlmBase_LIBRARY_DIRS}
     ${Log4cplus_LIBRARY_DIRS}
     ${Blosc_LIBRARY_DIRS}
-    ${Tbb_LIBRARY_DIRS}
   )
   if(OPENVDB_BUILD_CORE)
     list(APPEND RPATHS ${CMAKE_INSTALL_PREFIX}/lib)
