@@ -35,6 +35,10 @@
 #ifndef OPENVDB_MATH_HAS_BEEN_INCLUDED
 #define OPENVDB_MATH_HAS_BEEN_INCLUDED
 
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+
 #include <openvdb/Platform.h>
 #include <openvdb/version.h>
 #include <boost/numeric/conversion/conversion_traits.hpp>

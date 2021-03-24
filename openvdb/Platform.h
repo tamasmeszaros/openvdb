@@ -266,7 +266,7 @@ using boost::uint64_t;
     #define OPENVDB_EXPORT __attribute__((visibility("default")))
     #define OPENVDB_IMPORT __attribute__((visibility("default")))
 #endif
-#ifdef _WIN32
+#ifdef _MSC_VER
     #ifdef OPENVDB_DLL
         #define OPENVDB_EXPORT __declspec(dllexport)
         #define OPENVDB_IMPORT __declspec(dllimport)

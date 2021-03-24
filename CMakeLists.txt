@@ -63,8 +63,9 @@
 
 #]=======================================================================]
 
-project(OpenVDB)
 cmake_minimum_required(VERSION 3.3)
+project(OpenVDB)
+
 # Monitoring <PackageName>_ROOT variables
 if(POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
@@ -561,6 +562,10 @@ will be disabled). If OPENVDB_BUILD_CORE is OFF, CMake attempts to query the ins
 determine the ABI number. You may set this to force a given ABI number.]=] FORCE)
 
 ##########################################################################
+
+if (MINGW)
+    add_compile_options(-Wa,-mbig-obj)
+endif ()
 
 if(OPENVDB_BUILD_CORE)
   add_subdirectory(openvdb)

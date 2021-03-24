@@ -33,7 +33,7 @@
 #include "TempFile.h"
 
 #include <openvdb/Exceptions.h>
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
 #include <boost/iostreams/stream.hpp>
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <cstdlib> // for std::getenv(), mkstemp()
@@ -64,7 +64,7 @@ struct TempFile::TempFileImpl
     /// @internal boost::filesystem::unique_path(), etc. might be useful here,
     /// but as of 9/2014, Houdini ships without the Boost.Filesystem library,
     /// which makes it much less convenient to use that library.
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
     TempFileImpl(std::ostream& os): mFileDescr(-1) { this->init(os); }
 
     void init(std::ostream& os)
