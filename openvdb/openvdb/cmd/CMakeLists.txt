@@ -58,6 +58,7 @@ endif()
 
 if(OPENVDB_BUILD_VDB_PRINT)
   set(VDB_PRINT_SOURCE_FILES openvdb_print.cc)
+  find_package(Threads REQUIRED)
   add_executable(vdb_print ${VDB_PRINT_SOURCE_FILES})
   target_link_libraries(vdb_print ${OPENVDB_BINARIES_DEPENDENT_LIBS})
 
