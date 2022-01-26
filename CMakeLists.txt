@@ -356,11 +356,8 @@ endif()
 
 if(OPENVDB_INSTALL_CMAKE_MODULES)
   set(OPENVDB_CMAKE_MODULES
-    cmake/FindBlosc.cmake
     cmake/FindJemalloc.cmake
-    cmake/FindIlmBase.cmake
     cmake/FindLog4cplus.cmake
-    cmake/FindOpenEXR.cmake
     cmake/FindOpenVDB.cmake
     cmake/FindTBB.cmake
     cmake/OpenVDBGLFW3Setup.cmake
@@ -743,6 +740,10 @@ will be disabled). If OPENVDB_BUILD_CORE is OFF, CMake attempts to query the ins
 determine the ABI number. You may set this to force a given ABI number.]=] FORCE)
 
 ##########################################################################
+
+if (MINGW)
+    add_compile_options(-Wa,-mbig-obj)
+endif ()
 
 if(OPENVDB_BUILD_CORE)
   add_subdirectory(openvdb/openvdb)
